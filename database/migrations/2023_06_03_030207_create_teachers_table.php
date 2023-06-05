@@ -17,19 +17,16 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->boolean('registration_status');
             $table->double('rating', 2,1);
             $table->string('cv_url');
-            $table->string('level', 50);
-            $table->string('timetable');
+            $table->enum('level', ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
             $table->string('address');
             $table->integer('age');
-            $table->string('root');
-            $table->string('target');
-            $table->enum('type', ['online', 'offline']);
+            $table->string('route');
+            $table->string('goal');
             $table->unsignedBigInteger('salary');
             $table->text('other_requirements');
-            $table->string('phone_number', 50)->unique();
+            $table->string('phone', 50)->unique();
             $table->timestamps();
         });
     }
