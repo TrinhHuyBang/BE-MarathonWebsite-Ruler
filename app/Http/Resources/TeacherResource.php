@@ -18,7 +18,7 @@ class TeacherResource extends JsonResource
         $fields = $this->getAttributes();
         return array_merge($fields, [
             'user_info' => UserID::getLabel($this->user_id),
-            'schedules' => UserID::getClass($this->id)
+            'classes' => UserID::getClass($this->id)
         ]);
     }
 }
