@@ -15,18 +15,15 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
             $table->double('rating', 2,1);
             $table->string('cv_url');
             $table->enum('level', ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
-            $table->string('address');
+            $table->enum('address',["Ba Đình", "Hoàn Kiếm", "Hai Bà Trưng", "Đống Đa", "Tây Hồ", "Cầu Giấy", "Thanh Xuân", "Hoàng Mai", "Long Biên", "Bắc Từ Liêm", "Nam Từ Liêm", "Hà Đông", "Sơn Tây", "Ba Vì", "Phúc Thọ", "Đan Phượng", "Hoài Đức", "Thạch Thất", "Quốc Oai","Chương Mỹ", "Thanh Oai", "Thường Tín", "Phú Xuyên", "Mê Linh", "Đông Anh", "Gia Lâm", "Sóc Sơn", "Thanh Trì", "Mỹ Đức", "Ứng Hòa"]);
             $table->integer('age');
-            $table->string('route');
-            $table->string('goal');
             $table->unsignedBigInteger('salary');
             $table->text('other_requirements');
             $table->string('phone', 50)->unique();
+            $table->string('avatar');
             $table->timestamps();
         });
     }
