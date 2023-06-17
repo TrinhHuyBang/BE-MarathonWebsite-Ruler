@@ -18,6 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('teacher_id');
             $table->foreign('teacher_id')->references('id')->on('teachers');
             $table->string('name');
+            $table->enum('goal',['仕事に行く', '勉強', '試験に受ける', '基本的なコミュニケーション']);
+            $table->unsignedBigInteger('fee');
+            $table->enum('level', ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
             $table->enum('type', ['online', 'offline']);
             $table->date('start_date');
             $table->date('end_date');
