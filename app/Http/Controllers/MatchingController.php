@@ -5,20 +5,23 @@ namespace App\Http\Controllers;
 use App\Http\Resources\TeacherResource;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
+use Illuminate\Support\Facades\Log;
 
 class MatchingController extends Controller
 {
     public function matching (Request $request) 
     {
-        $so_luong = $request->dem;
-        $salaryF = $request->salary;
-        $addressF = $request->address;
-        $sexF = $request->sex;
-        $ageF = $request->age;
-        $goalF = $request->goal;
-        $levelF = $request->level;
-        $day_of_weekF = $request->day_of_week;
-        $time_slotF = $request->time_slot;
+        $so_luong = $request->get('dem');
+        $salaryF = $request->get('salary');
+        $addressF = $request->get('address');
+        $sexF = $request->get('sex');
+        $ageF = $request->get('age');
+        $goalF = $request->get('goal');
+        $levelF = $request->get('level');
+        $day_of_week = $request->get('day_of_week');
+        $day_of_weekF = config("dayOfWeek.$day_of_week");
+        Log::info($day_of_weekF);
+        $time_slotF = $request->get('time_slot');
         $teachers = TeacherResource::collection(Teacher::get());
         $points = [];
         foreach ($teachers as $index => $teacher) {

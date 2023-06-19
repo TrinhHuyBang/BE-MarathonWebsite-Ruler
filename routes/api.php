@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MatchingController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Http\Request;
@@ -22,3 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/teacher', [TeacherController::class, 'getListTeacher']);
 Route::post('/review', [ReviewController::class, 'addReview']) -> name('addReview');
+Route::post('/matching', [MatchingController::class, 'matching']) -> name('matching');
+
