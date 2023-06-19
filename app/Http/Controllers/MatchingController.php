@@ -17,7 +17,9 @@ class MatchingController extends Controller
         $sexF = $request->get('sex');
         $ageF = $request->get('age');
         $goalF = $request->get('goal');
-        $levelF = $request->get('level');
+        $level = $request->get('level');
+        $levelF = config("level.$level");
+        Log::info('Level' .$levelF);
         $day_of_week = $request->get('day_of_week');
         $day_of_weekF = config("dayOfWeek.$day_of_week");
         Log::info($day_of_weekF);
