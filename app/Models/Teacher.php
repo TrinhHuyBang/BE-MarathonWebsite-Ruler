@@ -28,4 +28,8 @@ class Teacher extends Model
         return $this->hasMany(Classes::class);
     }
 
+    public function comments() : HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
 }

@@ -11,4 +11,10 @@ class TeacherController extends Controller
     public function getListTeacher(){
         return TeacherResource::collection(Teacher::get());
     }
+
+    public function getListComment($id){
+        $comments = Teacher::find($id)->comments()->get();
+        return $comments;
+    }
+    
 }
