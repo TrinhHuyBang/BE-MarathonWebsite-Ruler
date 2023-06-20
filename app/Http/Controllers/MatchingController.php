@@ -17,12 +17,8 @@ class MatchingController extends Controller
         $sexF = $request->get('sex');
         $ageF = $request->get('age');
         $goalF = $request->get('goal');
-        $level = $request->get('level');
-        $levelF = config("level.$level");
-        Log::info('Level' .$levelF);
-        $day_of_week = $request->get('day_of_week');
-        $day_of_weekF = config("dayOfWeek.$day_of_week");
-        Log::info($day_of_weekF);
+        $levelF = $request->get('level');
+        $day_of_weekF = $request->get('day_of_week');
         $time_slotF = $request->get('time_slot');
         $teachers = TeacherResource::collection(Teacher::get());
         $points = [];
@@ -79,7 +75,8 @@ class MatchingController extends Controller
             if ($levelF) {
                 $levelB = 0;
                 foreach ($teacher->classes as $class) {
-                    $levelC = abs($class->level - $levelF) / $levelF;
+                    $level = $class->level;
+                    $levelC = abs(config("level.$level") - $levelF) / $levelF;
                     if ($levelC >= 1) {
                         $levelC = 0;
                     } else {
@@ -98,7 +95,8 @@ class MatchingController extends Controller
                     foreach ($teacher->classes as $class) {
                         $classC = 0;
                         foreach ($class->schedule_list as $schedule) {
-                            $day_of_weekB = abs($day_of_weekF - $schedule->day_of_week) / $day_of_weekF;
+                            $day = $schedule->day_of_week;
+                            $day_of_weekB = abs($day_of_weekF - config("dayOfWeek.$day")) / $day_of_weekF;
                             $time_slotB = abs($time_slotF - $schedule->time_slot) / $time_slotF;
                             if ($day_of_weekB >= 1) {
                                 $day_of_weekB = 0;
@@ -120,7 +118,8 @@ class MatchingController extends Controller
                     foreach ($teacher->classes as $class) {
                         $classC = 0;
                         foreach ($class->schedule_list as $schedule) {
-                            $day_of_weekB = abs($day_of_weekF - $schedule->day_of_week) / $day_of_weekF;
+                            $day = $schedule->day_of_week;
+                            $day_of_weekB = abs($day_of_weekF - config("dayOfWeek.$day")) / $day_of_weekF;
                             if ($day_of_weekB >= 1) {
                                 $day_of_weekB = 0;
                             }
