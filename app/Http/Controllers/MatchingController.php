@@ -25,16 +25,16 @@ class MatchingController extends Controller
         foreach ($teachers as $index => $teacher) {
             // giá
             if ($salaryF){
-                $salaryB = abs($salaryF - $teacher->salary) / $salaryF;
-                if ($salaryB >= 1){
+                $salaryB = 1 - abs($salaryF - $teacher->salary) / $salaryF;
+                if ($salaryB < 0){
                     $salaryB = 0;
                 }
             } else {
                 $salaryB = 0;
             }
             // địa chỉ
-            if ($addressF) {
-                if (strpos($teacher->address, $addressF) !== false) {
+            if ($addressF !== 'All') {
+                if ($teacher->address === $addressF) {
                     $addressB = 1;
                 } else {
                     $addressB = 0;
@@ -43,8 +43,8 @@ class MatchingController extends Controller
                 $addressB = 0;
             }
             // giới tính
-            if ($sexF) {
-                if (strcmp($teacher->sex, $sexF) === 0) {
+            if ($sexF !== 'All') {
+                if ($teacher->sex === $sexF) {
                     $sexB = 1;
                 } else {
                     $sexB = 0;
@@ -54,16 +54,16 @@ class MatchingController extends Controller
             }
             // tuổi
             if ($ageF) {
-                $ageB = abs($ageF - $teacher->age) / $ageF;
-                if ($ageB >= 1){
+                $ageB = 1- abs($ageF - $teacher->age) / $ageF;
+                if ($ageB < 0){
                     $ageB = 0;
                 }
             } else {
                 $ageB = 0;
             }
             // mục tiêu
-            if ($goalF) {
-                if (strpos($teacher->goal, $goalF) !== false) {
+            if ($goalF !== 'All') {
+                if ($teacher->goal === $goalF) {
                     $goalB = 1;
                 } else {
                     $goalB = 0;
@@ -72,12 +72,12 @@ class MatchingController extends Controller
                 $goalB = 0;
             }
             // cấp độ của lớp
-            if ($levelF) {
+            if ($levelF !== 'All') {
                 $levelB = 0;
                 foreach ($teacher->classes as $class) {
                     $level = $class->level;
-                    $levelC = abs(config("level.$level") - $levelF) / $levelF;
-                    if ($levelC >= 1) {
+                    $levelC = 1- abs(config("level.$level") - $levelF) / $levelF;
+                    if ($levelC < 0) {
                         $levelC = 0;
                     } else {
                         if ($levelC > $levelB) {
@@ -96,12 +96,12 @@ class MatchingController extends Controller
                         $classC = 0;
                         foreach ($class->schedule_list as $schedule) {
                             $day = $schedule->day_of_week;
-                            $day_of_weekB = abs($day_of_weekF - config("dayOfWeek.$day")) / $day_of_weekF;
-                            $time_slotB = abs($time_slotF - $schedule->time_slot) / $time_slotF;
-                            if ($day_of_weekB >= 1) {
+                            $day_of_weekB = 1 - abs($day_of_weekF - config("dayOfWeek.$day")) / $day_of_weekF;
+                            $time_slotB = 1 - abs($time_slotF - $schedule->time_slot) / $time_slotF;
+                            if ($day_of_weekB < 0) {
                                 $day_of_weekB = 0;
                             }
-                            if ($time_slotB >= 1) {
+                            if ($time_slotB < 0) {
                                 $time_slotB = 0;
                             }
                             $classD = ($day_of_weekB + $time_slotB) / 2;
@@ -119,8 +119,8 @@ class MatchingController extends Controller
                         $classC = 0;
                         foreach ($class->schedule_list as $schedule) {
                             $day = $schedule->day_of_week;
-                            $day_of_weekB = abs($day_of_weekF - config("dayOfWeek.$day")) / $day_of_weekF;
-                            if ($day_of_weekB >= 1) {
+                            $day_of_weekB = 1- abs($day_of_weekF - config("dayOfWeek.$day")) / $day_of_weekF;
+                            if ($day_of_weekB < 0) {
                                 $day_of_weekB = 0;
                             }
                             if ($day_of_weekB > $classC) {
@@ -138,8 +138,8 @@ class MatchingController extends Controller
                     foreach ($teacher->classes as $class) {
                         $classC = 0;
                         foreach ($class->schedule_list as $schedule) {
-                            $time_slotB = abs($time_slotF - $schedule->time_slot) / $time_slotF;
-                            if ($time_slotB >= 1) {
+                            $time_slotB = 1- abs($time_slotF - $schedule->time_slot) / $time_slotF;
+                            if ($time_slotB < 0) {
                                 $time_slotB = 0;
                             }
                             if ($time_slotB > $classC) {
@@ -161,8 +161,7 @@ class MatchingController extends Controller
                     "point" => $point
                 ]);
         }
-        return usort($points, function($a, $b) {
-            return $b["point"] - $a["point"];
-        });
+        $point_sorts = collect($points)->sortByDesc('point')->values()->all();
+        return $point_sorts;
     }
 }
