@@ -22,7 +22,16 @@ class User extends Authenticatable
         'sex',
         'email',
         'password',
+        'avatar',
+        'address',
+        'level',
+        'desired_day',
+        'desired_time',
+        'desired_place',
+        'desired_price',
+        'desired_gender',
+        'desired_goal',
+        'desired_level',
         'role',
     ];
-
 }

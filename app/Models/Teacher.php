@@ -10,17 +10,17 @@ class Teacher extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'user_id',
-        'rating',
+        'name',
         'cv_url',
         'level',
         'address',
-        'route',
         'age',
         'salary',
-        'goal',
         'other_requiments',
         'phone',
+        'avatar',
+        'sex',
+        'status'
     ];
 
     public function teacher_class() : HasMany
@@ -32,5 +32,4 @@ class Teacher extends Model
     {
         return $this->hasMany(Review::class);
     }
-
 }
