@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Teacher extends Model
 {
@@ -21,5 +22,15 @@ class Teacher extends Model
         'other_requiments',
         'phone',
     ];
+
+    public function teacher_class() : HasMany
+    {
+        return $this->hasMany(Classes::class);
+    }
+
+    public function comments() : HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
 
 }

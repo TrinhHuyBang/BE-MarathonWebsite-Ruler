@@ -24,4 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/teacher', [TeacherController::class, 'getListTeacher']);
 Route::post('/review', [ReviewController::class, 'addReview']) -> name('addReview');
 Route::post('/matching', [MatchingController::class, 'matching']) -> name('matching');
+Route::get('/comment/{id}', [TeacherController::class, 'getListComment']) -> name('comment');
 
