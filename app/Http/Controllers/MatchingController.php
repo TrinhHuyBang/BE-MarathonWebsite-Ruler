@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TeacherResource;
+use App\Models\Classes;
+use App\Models\ClassSchedule;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
 use Illuminate\Support\Facades\Log;
@@ -22,8 +24,12 @@ class MatchingController extends Controller
         $time_slotF = $request->get('time_slot');
         $teachers = TeacherResource::collection(Teacher::get());
         $points = [];
-        foreach ($teachers as $index => $teacher) {
+        
+        foreach ($teachers as $teacher) {
             // giá
+            $cl = Teacher::find($teacher->id)->teacher_class()->get();
+            $clss = Classes::find($cl[0]->id)->schedule_class()->get();
+            return $clss[0]->schedule_id;
             if ($salaryF){
                 $salaryB = 1 - abs($salaryF - $teacher->salary) / $salaryF;
                 if ($salaryB < 0){
@@ -44,7 +50,7 @@ class MatchingController extends Controller
             }
             // giới tính
             if ($sexF !== 'All') {
-                if ($teacher->sex === $sexF) {
+                if ($teacher->user_info->sex === $sexF) {
                     $sexB = 1;
                 } else {
                     $sexB = 0;
@@ -74,6 +80,7 @@ class MatchingController extends Controller
             // cấp độ của lớp
             if ($levelF !== 'All') {
                 $levelB = 0;
+            return $teacher->classes;
                 foreach ($teacher->classes as $class) {
                     $level = $class->level;
                     $levelC = 1- abs(config("level.$level") - $levelF) / $levelF;
@@ -89,7 +96,7 @@ class MatchingController extends Controller
                 $levelB = 0;
             }
             // thời gian
-            if ($day_of_weekF) {
+            if ($day_of_weekF !== 'All') {
                 if ($time_slotF) {
                     $timeB = 0;
                     foreach ($teacher->classes as $class) {
@@ -133,7 +140,7 @@ class MatchingController extends Controller
                     }
                 }
             } else {
-                if ($time_slotF) {
+                if ($time_slotF !== 'All') {
                     $timeB = 0;
                     foreach ($teacher->classes as $class) {
                         $classC = 0;
