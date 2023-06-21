@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Enums\UserID;
-use App\Models\Review;
+use App\Models\review;
 use App\Models\Teacher;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,7 +18,7 @@ class TeacherResource extends JsonResource
     public function toArray($request)
     {   
         $vote = 0;
-        $comments = Review::where('teacher_id', $this->id);
+        $comments = review::where('teacher_id', $this->id);
         if($comments) {
             $vote = $comments->avg('rating');
         }
