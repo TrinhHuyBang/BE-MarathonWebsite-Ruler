@@ -25,10 +25,9 @@ class TeacherResource extends JsonResource
         }
         $fields = $this->getAttributes();
         return array_merge($fields, [
-            'vote' => $vote,
-            'user_info' => UserID::getLabel($this->user_id),
-            'classes' => UserID::getClass($this->id)
-            
+            'vote' => round($vote, 2),
+            'classes' => UserID::getClass($this->id),
+
         ]);
     }
 }
