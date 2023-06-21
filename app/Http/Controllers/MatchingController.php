@@ -170,13 +170,9 @@ class MatchingController extends Controller
                 }
             }
             $point = ($timeB + $goalB + $ageB + $sexB + $levelB + $addressB + $salaryB) / $so_luong;
-            array_push($points,
-                [
-                    "teacher_id" => $teacher->id,
-                    "point" => $point
-                ]);
+            $teacher['point'] = $point;
         }
-        $point_sorts = collect($points)->sortByDesc('point')->values()->all();
+        $point_sorts = collect($teachers)->sortByDesc('point')->values()->all();
         return $point_sorts;
     }
 }
