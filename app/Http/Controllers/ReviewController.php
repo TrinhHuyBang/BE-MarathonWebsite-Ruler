@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +18,7 @@ class ReviewController extends Controller
             'rating' => $request->get('rating'),
             'comment' => $request->get('comment'),
         ];
-        review::create($data);
+        Comment::create($data);
         return response('OK', 200);
     }
 
