@@ -62,14 +62,14 @@ final class UserID extends Enum
                 $rs,
                 [
                     "id" => $class["id"],
-                    "level" => $class["level"],
                     "name" => $class["name"],
                     "type" => $class["type"],
+                    "fee" => $class["fee"],
+                    "level" => $class["level"],
                     "start_date" => $class["start_date"],
                     "end_date" => $class["end_date"],
                     "max_student" => $class["max_student"],
                     "day_of_week" => $schedule->day_of_week,
-                    "time_slot" => $schedule->time_slot,
                     "schedule_list" => $array_schedule
 
                 ]
