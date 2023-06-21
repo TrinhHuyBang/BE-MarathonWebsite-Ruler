@@ -62,6 +62,7 @@ final class UserID extends Enum
                 $rs,
                 [
                     "id" => $class["id"],
+                    "level" => $class["level"],
                     "name" => $class["name"],
                     "type" => $class["type"],
                     "start_date" => $class["start_date"],
