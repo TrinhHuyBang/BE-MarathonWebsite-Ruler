@@ -66,17 +66,21 @@ class MatchingController extends Controller
                 $ageB = 0;
             }
             // mục tiêu
+            
+            $classAll = Teacher::find($teacher->id)->teacher_class()->get();
             if ($goalF !== 'All') {
-                if ($teacher->goal === $goalF) {
-                    $goalB = 1;
-                } else {
-                    $goalB = 0;
+                $goalB = 0;
+                foreach ($classAll as $class) {
+                    $goal = $class->goal;
+                    if ($goal === $goalF) {
+                        $goalB = 1;
+                        break;
+                    } 
                 }
             } else {
                 $goalB = 0;
             }
             // cấp độ của lớp
-            $classAll = Teacher::find($teacher->id)->teacher_class()->get();
             if ($levelF !== 'All') {
                 $levelB = 0;
                 foreach ($classAll as $class) {
@@ -165,7 +169,7 @@ class MatchingController extends Controller
                     $timeB = 0;
                 }
             }
-            $point = ($timeB + $goalB + $ageB + $sexB + $addressB + $salaryB) / $so_luong;
+            $point = ($timeB + $goalB + $ageB + $sexB + $levelB + $addressB + $salaryB) / $so_luong;
             array_push($points,
                 [
                     "teacher_id" => $teacher->id,
