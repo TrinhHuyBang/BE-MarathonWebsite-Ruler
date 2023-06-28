@@ -68,6 +68,8 @@ class MatchingController extends Controller
             // mục tiêu
             
             $classAll = Teacher::find($teacher->id)->teacher_class()->get();
+
+
             if ($goalF !== 'All') {
                 $goalB = 0;
                 foreach ($classAll as $class) {
@@ -105,7 +107,7 @@ class MatchingController extends Controller
                         $classC = 0;
                         $scheduleClassAll = Classes::find($class->id)->schedule_class()->get();
                         foreach ($scheduleClassAll as $scheduleClass) {
-                            $schedule = Schedule::find($scheduleClass->schedule_id)->first();
+                            $schedule = Schedule::where("id", $scheduleClass->schedule_id)->first();
                             $day = $schedule->day_of_week;
                             $day_of_weekB = 1 - abs($day_of_weekF - config("dayOfweek.$day")) / $day_of_weekF;
                             $time_slotB = 1 - abs($time_slotF - $schedule->time_slot) / $time_slotF;
@@ -130,9 +132,10 @@ class MatchingController extends Controller
                         $classC = 0;
                         $scheduleClassAll = Classes::find($class->id)->schedule_class()->get();
                         foreach ($scheduleClassAll as $scheduleClass) {
-                            $schedule = Schedule::find($scheduleClass->schedule_id)->first();
+                            $schedule = Schedule::where("id", $scheduleClass->schedule_id)->first();
                             $day = $schedule->day_of_week;
                             $day_of_weekB = 1- abs($day_of_weekF - config("dayOfweek.$day")) / $day_of_weekF;
+
                             if ($day_of_weekB < 0) {
                                 $day_of_weekB = 0;
                             }
@@ -140,6 +143,7 @@ class MatchingController extends Controller
                                 $classC = $day_of_weekB;
                             }
                         }
+
                         if ($classC > $timeB) {
                             $timeB = $classC;
                         }
@@ -152,7 +156,7 @@ class MatchingController extends Controller
                         $classC = 0;
                         $scheduleClassAll = Classes::find($class->id)->schedule_class()->get();
                         foreach ($scheduleClassAll as $scheduleClass) {
-                            $schedule = Schedule::find($scheduleClass->schedule_id)->first();
+                            $schedule = Schedule::where("id", $scheduleClass->schedule_id)->first();
                             $time_slotB = 1- abs($time_slotF - $schedule->time_slot) / $time_slotF;
                             if ($time_slotB < 0) {
                                 $time_slotB = 0;
