@@ -17,6 +17,10 @@ class Classes extends Model
         'start_date',
         'end_date',
         'max_student',
+        'goal',
+        'fee',
+        'level',
+
     ];
     // public function 
 
@@ -24,4 +28,5 @@ class Classes extends Model
     {
         return $this->hasMany(ClassSchedule::class, "class_id");
     }
+    public $timestamps = false;
 }
