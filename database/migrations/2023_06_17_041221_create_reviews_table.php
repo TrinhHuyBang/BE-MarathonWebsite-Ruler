@@ -19,9 +19,9 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('teacher_id');
             $table->foreign('teacher_id')->references('id')->on('teachers');
-            $table->enum('rating',[1, 2, 3, 4, 5]);
-            $table->boolean('bookmark');
-            $table->string('comment');
+            $table->enum('rating',[1, 2, 3, 4, 5])->nullable();
+            $table->boolean('bookmark')->nullable();
+            $table->string('comment')->nullable();
         });
     }
 
