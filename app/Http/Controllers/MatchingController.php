@@ -8,6 +8,7 @@ use App\Models\ClassSchedule;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
 class MatchingController extends Controller
@@ -174,6 +175,70 @@ class MatchingController extends Controller
                 }
             }
             $point = ($timeB + $goalB + $ageB + $sexB + $levelB + $addressB + $salaryB) / $so_luong;
+            $teacher['point'] = $point;
+        }
+        $point_sorts = collect($teachers)->sortByDesc('point')->values()->all();
+        return $point_sorts;
+    }
+
+    public function question (Request $request)
+    {
+        $salaryF = $request->get('salary');
+        $addressF = $request->get('address');
+        $levelF = $request->get('level');
+        $user_id = $request->get('user_id');
+        return User::where('id', $user_id)->update([
+            'desired_price' => $salaryF,
+            'desired_place' => $addressF,
+            'desired_level' => $levelF,
+        ]);
+    }
+
+    public function matchingByUserId ($id) 
+    {
+        $user_id = (int)$id;
+        $user = User::where('id', $user_id)->first();
+        $salaryF =$user->desired_price;
+        $addressF = $user->desired_place;
+        $levelF = $user->desired_level;
+        $teachers = TeacherResource::collection(Teacher::get());
+        if($salaryF){
+            $so_luong = 3;
+        }else{
+            return $teachers;
+        }
+        
+        foreach ($teachers as $teacher) {
+            // giá
+                $salaryB = 1 - abs($salaryF - $teacher->salary) / $salaryF;
+                if ($salaryB < 0){
+                    $salaryB = 0;
+                }
+            
+            // địa chỉ
+                if ($teacher->address === $addressF) {
+                    $addressB = 1;
+                } else {
+                    $addressB = 0;
+                }
+            
+            $classAll = Teacher::find($teacher->id)->teacher_class()->get();
+
+            // cấp độ của lớp
+                $levelB = 0;
+                foreach ($classAll as $class) {
+                    $level = $class->level;
+                    $levelC = 1- abs(config("level.$level") - config("level.$levelF")) / config("level.$levelF");
+                    if ($levelC < 0) {
+                        $levelC = 0;
+                    } else {
+                        if ($levelC > $levelB) {
+                            $levelB = $levelC;
+                        }
+                    }
+                }
+            
+            $point = ($levelB + $addressB + $salaryB) / $so_luong;
             $teacher['point'] = $point;
         }
         $point_sorts = collect($teachers)->sortByDesc('point')->values()->all();

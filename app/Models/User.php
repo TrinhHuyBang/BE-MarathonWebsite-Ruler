@@ -39,4 +39,5 @@ class User extends Authenticatable
         'role' => 'user',
     ];
     public $timestamps = false;
+
 }

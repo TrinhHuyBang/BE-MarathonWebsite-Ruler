@@ -4,16 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class ClassSchedule extends Model
+class ClassMember extends Model
 {
     use HasFactory;
-    protected $table = 'class_schedule';
+    protected $table = 'class_members';
     protected $fillable = [
         'class_id',
-        'schedule_id',
+        'user_id'
+
+    ];
+    // public function 
+    protected $attributes = [
+        'status' => false,
     ];
     public $timestamps = false;
-    
 }
