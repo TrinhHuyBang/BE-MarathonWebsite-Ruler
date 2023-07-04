@@ -34,4 +34,9 @@ class User extends Authenticatable
         'desired_level',
         'role',
     ];
+
+    protected $attributes = [
+        'role' => 'user',
+    ];
+    public $timestamps = false;
 }

@@ -18,8 +18,14 @@ class ReviewController extends Controller
             'rating' => $request->get('rating'),
             'comment' => $request->get('comment'),
         ];
-        Comment::create($data);
-        return response('OK', 200);
+        $review = Comment::where(['user_id' => $request->get('user_id'), 'teacher_id' => $request->get('teacher_id')])->first();
+        if($review){
+            Comment::where(['user_id' => $request->get('user_id'), 'teacher_id' => $request->get('teacher_id')])->update(['rating' =>$request->get('rating'), 'comment' =>$request->get('comment')]);
+            return response('OK', 200);
+        } else {
+            Comment::create($data);
+            return response('OK', 200);
+        }
     }
 
     public function addBookmark(Request $request){
