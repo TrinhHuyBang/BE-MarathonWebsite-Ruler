@@ -33,6 +33,8 @@ Route::post('/review', [ReviewController::class, 'addReview']) -> name('addRevie
 Route::post('/matching', [MatchingController::class, 'matching']) -> name('matching');
 Route::get('/comment/{id}', [TeacherController::class, 'getListComment']) -> name('comment');
 
+Route::get('/teacher/search', [TeacherController::class, 'searchTeacher']);
+
 Route::post('/create-class', [ClassManagerController::class, 'createClass']) -> name('createClass');
 Route::get('/get-all-class', [ClassManagerController::class, 'getAllClass']) -> name('getAllClass');
 Route::delete('/delete-class/{id}', [ClassManagerController::class, 'deleteClass']) -> name('deleteClass');
