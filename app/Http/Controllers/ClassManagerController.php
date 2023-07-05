@@ -168,4 +168,36 @@ class ClassManagerController extends Controller
             ], 500);
         }
     }
+
+    public function editClass(Request $request) {
+        try {
+            $class_id = $request->get('class_id');
+            $name = $request->get('name');
+            $start_date = $request->get('start_date');
+            $end_date = $request->get('end_date');
+            $max_student = $request->get('max_student');
+            $level = $request->get("level");
+            $type = $request->get("type");
+            $goal = $request->get("goal");
+            $fee = intval($request->get("fee"));
+            Classes::where("id", $class_id)->update([
+                "name" => $name,
+                "goal" => $goal,
+                "start_date" => $start_date,
+                "end_date" => $end_date,
+                "max_student" => $max_student,
+                "type" => $type,
+                "fee" => $fee,
+                "level" => $level,
+            ]);
+            return response()->json([
+                'message' => "success",
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage(),
+                'code' => $e->getCode(),
+            ], 500);
+        }
+    }
 }

@@ -16,5 +16,13 @@ class TeacherController extends Controller
         $comments = Teacher::find($id)->comments()->get();
         return $comments;
     }
+    public function updateStatus(Request $request){
+        $teacher_id = $request->get("teacher_id");
+        $status = $request->get("status");
+        
+        return Teacher::where("id", $teacher_id)->update([
+            "status" => $status
+        ]);
+    }
     
 }
