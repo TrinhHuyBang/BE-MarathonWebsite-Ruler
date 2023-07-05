@@ -46,6 +46,7 @@ Route::delete('/delete-request/{id}', [ClassManagerController::class, 'deleteReq
 Route::put('/check-request', [ClassManagerController::class, 'checkRequestMember']) -> name('checkRequestMember');
 Route::put('/question', [MatchingController::class, 'question']) -> name('question');
 Route::get('/get-teacher-by-question/{id}', [MatchingController::class, 'matchingByUserId']) -> name('matchingByUserId');
+Route::get('/get-class-by-user/{id}', [UserController::class, 'getClass']) -> name('getClass');
 
 Route::post('/login', [LoginController::class, 'login']) -> name('login');
 Route::get('/logout', [LoginController::class, 'logout']) -> name('logout');
