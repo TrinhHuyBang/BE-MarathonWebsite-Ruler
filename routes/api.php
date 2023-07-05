@@ -29,6 +29,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/teacher', [TeacherController::class, 'getListTeacher']);
+Route::put('/update-status', [TeacherController::class, 'updateStatus']);
 Route::post('/review', [ReviewController::class, 'addReview']) -> name('addReview');
 Route::post('/matching', [MatchingController::class, 'matching']) -> name('matching');
 Route::get('/comment/{id}', [TeacherController::class, 'getListComment']) -> name('comment');
@@ -36,6 +37,7 @@ Route::get('/comment/{id}', [TeacherController::class, 'getListComment']) -> nam
 Route::get('/teacher/search', [TeacherController::class, 'searchTeacher']);
 
 Route::post('/create-class', [ClassManagerController::class, 'createClass']) -> name('createClass');
+Route::post('/edit-class', [ClassManagerController::class, 'editClass']) -> name('editClass');
 Route::get('/get-all-class', [ClassManagerController::class, 'getAllClass']) -> name('getAllClass');
 Route::delete('/delete-class/{id}', [ClassManagerController::class, 'deleteClass']) -> name('deleteClass');
 Route::post('/register-class', [ClassManagerController::class, 'registerClass']) -> name('registerClass');
@@ -49,5 +51,6 @@ Route::post('/login', [LoginController::class, 'login']) -> name('login');
 Route::get('/logout', [LoginController::class, 'logout']) -> name('logout');
 Route::post('/register', [RegisterController::class, 'register']) -> name('register');
 Route::post('/bookmark', [BookmarkController::class, 'bookmark']);
+Route::put('/edit-info', [UserController::class, 'editInfo']);
 
 
