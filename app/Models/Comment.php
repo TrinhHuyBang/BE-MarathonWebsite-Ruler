@@ -19,6 +19,9 @@ class Comment extends Model
 
     protected $attributes = [
         'bookmark' => false,
+        'rating' => null,
+        'comment' => null,
+
     ];
     public $timestamps = false;
 }
