@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class BookmarkController extends Controller
 {
@@ -24,5 +25,20 @@ class BookmarkController extends Controller
             Comment::create(['teacher_id' => $teacher_id, 'user_id' => $user_id, 'bookmark' => true]);
         }
         return response()->json(['message' => 'success', 'user_id' => Auth::user()], 200);
+    }
+
+    public function getTeacherBookmark( $id){
+        // $user_id = $request->get('user_id');
+        $bookmarks = Comment::where('user_id', $id)->where('bookmark', 1)->get();
+        $teachers = [];
+        foreach($bookmarks as $bookmark){
+            $teacher_id = $bookmark->teacher_id;
+            $teacher = Teacher::where('id', $teacher_id)->first();
+            array_push($teachers,$teacher);
+        }
+
+        // Log::info($bookmark);
+
+        return $teachers;
     }
 }
