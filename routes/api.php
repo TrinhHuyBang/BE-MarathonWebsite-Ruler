@@ -52,6 +52,8 @@ Route::post('/login', [LoginController::class, 'login']) -> name('login');
 Route::get('/logout', [LoginController::class, 'logout']) -> name('logout');
 Route::post('/register', [RegisterController::class, 'register']) -> name('register');
 Route::post('/bookmark', [BookmarkController::class, 'bookmark']);
+Route::get('/getbookmark/{id}', [BookmarkController::class, 'getTeacherBookmark']);
+
 Route::put('/edit-info', [UserController::class, 'editInfo']);
 
 
