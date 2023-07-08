@@ -53,4 +53,21 @@ class TeacherController extends Controller
 
         return TeacherResource::collection($results);
     }
+    public function deleteTeacher($id) {
+        // try {
+        //     $classes = Classes::Where("teacher_id", $id)->get();
+        //     foreach ($classes as $class) {
+        //         ClassSchedule::where('class_id', $class->id)->delete();
+        //         Classes::Where("id", $class->id)->delete();
+        //     }
+        //     return response()->json([
+        //         'message' => "success",
+        //     ]);
+        // } catch (Exception $e) {
+        //     return response()->json([
+        //         'error' => $e->getMessage(),
+        //         'code' => $e->getCode(),
+        //     ], 500);
+        // }
+    }
 }
