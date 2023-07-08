@@ -1,0 +1,11 @@
+insert into users (id, name, sex, email, role, password, avatar, address, level) values
+  (1,"Nguyen Thi Thu","female","thunguyen98@gmail.com","user","123456","https://leminhhoang.vn/wp-content/uploads/2023/05/chon-loc-anh-avatar-buon.jpg","Ba Dinh","A1"),
+  (2,"Tran Van Minh","male","minhtran99@gmail.com","user","123456","https://antimatter.vn/wp-content/uploads/2022/04/avatar-doi-nguoi-that-ngau-cho-nam.jpg","Hoan Kiem","A2"),
+  (3,"Le Thi Anh","female","anhle98@gmail.com","user","123456","https://toigingiuvedep.vn/wp-content/uploads/2022/11/avatar-dep-nu-cho-con-gai.jpg","Hai Ba Trung","B1"),
+  (4,"Pham Duc Trung","male","trungpham93@gmail.com","user","123456","https://upanh123.com/wp-content/uploads/2020/12/avatar-nam.jpg","Dong Da","B2"),
+  (5,"Vu Thi Mai Phuong","female","phuongvu97@gmail.com","user","123456","https://anhdephd.vn/wp-content/uploads/2022/02/tai-anh-avatar-dep-hinh-dai-dien-facebook.jpg","Tay Ho","C1"),
+  (6,"Hoang Trung Hieu ","male","hieuhoang94@gmail.com","user","123456","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZiOs1UwbiYbjcA6S7fTzCYL4E-WrAwiYLG3eCDssLJKTtJLteogeRwAbcmqY0bjGnWGQ&usqp=CAU","Cau Giay","C2"),
+  (7,"Ngo Viet Bac","male","bacngo2k@gmail.com","user","123456","https://www.vivosmartphone.vn/uploads/MANGOADS/Selfie%20n%E1%BB%AF/A%20%C4%91%E1%BA%BFn%20Z/3.jpg","Thanh Xuan","A1"),
+  (8,"Nguyen Duc Long","male","longnguyen95@gmail.com","user","123456","https://toanthaydinh.com/wp-content/uploads/2020/04/avatar-dep-trai-10.jpg","Hoang Mai","A2"),
+  (9,"Bui Xuan Thuy","female","thuybui91@gmail.com","user","123456","https://leminhhoang.vn/wp-content/uploads/2023/05/chon-loc-anh-avatar-buon.jpg","Long Bien","B1"),
+  (10,"Tran Huy Phuc","male","phuctran99@gmail.com","user","123456","https://anhdep123.com/wp-content/uploads/2021/02/anh-hoc-sinh-dep.jpg","Long Bien","B2");
