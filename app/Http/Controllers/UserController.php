@@ -6,6 +6,9 @@ use App\Models\Classes;
 use App\Models\ClassMember;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Models\ClassSchedule;
+use App\Models\Schedule;
+use Illuminate\Console\Scheduling\ScheduleListCommand;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -37,6 +40,8 @@ class UserController extends Controller
         foreach ($class_members as $class_member) {
             $class_id = $class_member->class_id;
             $class = Classes::where("id", $class_id)->first();
+            $class_schedule = ClassSchedule::where("class_id", $class_id)->first();
+            $timeslot = Schedule::where("id", $class_schedule->schedule_id)->first();
             // return $class;
             $teacher = Teacher::where("id", $class->teacher_id)->first();
             array_push($classes, [
@@ -48,7 +53,7 @@ class UserController extends Controller
                 "type" => $class->type,
                 "start_date" => $class->start_dateel,
                 "end_date" => $class->end_date,
-
+                "timeslot" => $timeslot,
             ]);
         }
         return $classes;
