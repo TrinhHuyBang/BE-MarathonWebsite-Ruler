@@ -25,14 +25,14 @@ class UserController extends Controller
 
     public function editInfo(Request $request)
     {
-        $user_id = $request->get("user_id");
+        $user_id = $request->get("id");
         $avatar = $request->get("avatar");
         $name = $request->get("name");
         $email = $request->get("email");
         $address = $request->get("address");
         $level = $request->get("level");
         $sex = $request->get("sex");
-        return User::Where("id", $user_id)->update([
+        return User::where("id", $user_id)->update([
             "name" => $name,
             "email" => $email,
             "sex" => $sex,
