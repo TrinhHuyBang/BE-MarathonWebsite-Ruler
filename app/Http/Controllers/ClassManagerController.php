@@ -62,6 +62,7 @@ class ClassManagerController extends Controller
     public function deleteClass($id) {
         try {
             ClassSchedule::where('class_id', $id)->delete();
+            ClassMember::where('class_id', $id)->delete();
             Classes::Where("id", $id)->delete();
             return response()->json([
                 'message' => "success",

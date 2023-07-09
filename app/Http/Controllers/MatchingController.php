@@ -4,16 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\TeacherResource;
 use App\Models\Classes;
-use App\Models\ClassSchedule;
+use App\Models\Comment;
 use App\Models\Schedule;
-use Illuminate\Http\Request;
 use App\Models\Teacher;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 class MatchingController extends Controller
 {
-    public function matching (Request $request) 
+    public function matching(Request $request)
     {
         $so_luong = $request->get('dem');
         $salaryF = $request->get('salary');
@@ -26,12 +25,12 @@ class MatchingController extends Controller
         $time_slotF = $request->get('time_slot');
         $teachers = TeacherResource::collection(Teacher::get());
         $points = [];
-        
+
         foreach ($teachers as $teacher) {
             // giá
-            if ($salaryF){
+            if ($salaryF) {
                 $salaryB = 1 - abs($salaryF - $teacher->salary) / $salaryF;
-                if ($salaryB < 0){
+                if ($salaryB < 0) {
                     $salaryB = 0;
                 }
             } else {
@@ -59,17 +58,16 @@ class MatchingController extends Controller
             }
             // tuổi
             if ($ageF) {
-                $ageB = 1- abs($ageF - $teacher->age) / $ageF;
-                if ($ageB < 0){
+                $ageB = 1 - abs($ageF - $teacher->age) / $ageF;
+                if ($ageB < 0) {
                     $ageB = 0;
                 }
             } else {
                 $ageB = 0;
             }
             // mục tiêu
-            
-            $classAll = Teacher::find($teacher->id)->teacher_class()->get();
 
+            $classAll = Teacher::find($teacher->id)->teacher_class()->get();
 
             if ($goalF !== 'All') {
                 $goalB = 0;
@@ -78,7 +76,7 @@ class MatchingController extends Controller
                     if ($goal === $goalF) {
                         $goalB = 1;
                         break;
-                    } 
+                    }
                 }
             } else {
                 $goalB = 0;
@@ -88,7 +86,7 @@ class MatchingController extends Controller
                 $levelB = 0;
                 foreach ($classAll as $class) {
                     $level = $class->level;
-                    $levelC = 1- abs(config("level.$level") - $levelF) / $levelF;
+                    $levelC = 1 - abs(config("level.$level") - $levelF) / $levelF;
                     if ($levelC < 0) {
                         $levelC = 0;
                     } else {
@@ -135,7 +133,7 @@ class MatchingController extends Controller
                         foreach ($scheduleClassAll as $scheduleClass) {
                             $schedule = Schedule::where("id", $scheduleClass->schedule_id)->first();
                             $day = $schedule->day_of_week;
-                            $day_of_weekB = 1- abs($day_of_weekF - config("dayOfweek.$day")) / $day_of_weekF;
+                            $day_of_weekB = 1 - abs($day_of_weekF - config("dayOfweek.$day")) / $day_of_weekF;
 
                             if ($day_of_weekB < 0) {
                                 $day_of_weekB = 0;
@@ -158,7 +156,7 @@ class MatchingController extends Controller
                         $scheduleClassAll = Classes::find($class->id)->schedule_class()->get();
                         foreach ($scheduleClassAll as $scheduleClass) {
                             $schedule = Schedule::where("id", $scheduleClass->schedule_id)->first();
-                            $time_slotB = 1- abs($time_slotF - $schedule->time_slot) / $time_slotF;
+                            $time_slotB = 1 - abs($time_slotF - $schedule->time_slot) / $time_slotF;
                             if ($time_slotB < 0) {
                                 $time_slotB = 0;
                             }
@@ -181,7 +179,7 @@ class MatchingController extends Controller
         return $point_sorts;
     }
 
-    public function question (Request $request)
+    public function question(Request $request)
     {
         $salaryF = $request->get('salary');
         $addressF = $request->get('address');
@@ -194,52 +192,64 @@ class MatchingController extends Controller
         ]);
     }
 
-    public function matchingByUserId ($id) 
+    public function matchingByUserId($id)
     {
-        $user_id = (int)$id;
+        $user_id = (int) $id;
         $user = User::where('id', $user_id)->first();
-        $salaryF =$user->desired_price;
+        $salaryF = $user->desired_price;
         $addressF = $user->desired_place;
         $levelF = $user->desired_level;
         $teachers = TeacherResource::collection(Teacher::get());
-        if($salaryF){
+        if ($salaryF) {
             $so_luong = 3;
-        }else{
+        } else {
             return $teachers;
         }
-        
+
         foreach ($teachers as $teacher) {
             // giá
-                $salaryB = 1 - abs($salaryF - $teacher->salary) / $salaryF;
-                if ($salaryB < 0){
-                    $salaryB = 0;
-                }
-            
+            $salaryB = 1 - abs($salaryF - $teacher->salary) / $salaryF;
+            if ($salaryB < 0) {
+                $salaryB = 0;
+            }
+
             // địa chỉ
-                if ($teacher->address === $addressF) {
-                    $addressB = 1;
-                } else {
-                    $addressB = 0;
-                }
-            
+            if ($teacher->address === $addressF) {
+                $addressB = 1;
+            } else {
+                $addressB = 0;
+            }
+
             $classAll = Teacher::find($teacher->id)->teacher_class()->get();
 
             // cấp độ của lớp
-                $levelB = 0;
-                foreach ($classAll as $class) {
-                    $level = $class->level;
-                    $levelC = 1- abs(config("level.$level") - config("level.$levelF")) / config("level.$levelF");
-                    if ($levelC < 0) {
-                        $levelC = 0;
-                    } else {
-                        if ($levelC > $levelB) {
-                            $levelB = $levelC;
-                        }
+            $levelB = 0;
+            foreach ($classAll as $class) {
+                $level = $class->level;
+                $levelC = 1 - abs(config("level.$level") - config("level.$levelF")) / config("level.$levelF");
+                if ($levelC < 0) {
+                    $levelC = 0;
+                } else {
+                    if ($levelC > $levelB) {
+                        $levelB = $levelC;
                     }
                 }
-            
+            }
+
             $point = ($levelB + $addressB + $salaryB) / $so_luong;
             $teacher['point'] = $point;
+            $bookmark = Comment::where(['teacher_id' => $teacher->id, 'user_id' => $user_id])->first();
+            if ($bookmark !== null) {
+                if ($bookmark->bookmark === 1) {
+                    $teacher['bookmark'] = true;
+
+                } else {
+                    $teacher['bookmark'] = false;
+                }
+            } else {
+                $teacher['bookmark'] = false;
+
+            }
         }
         $point_sorts = collect($teachers)->sortByDesc('point')->values()->all();
         return $point_sorts;
