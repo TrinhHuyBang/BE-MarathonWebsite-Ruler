@@ -13,10 +13,18 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function login(){
-        
+    public function login()
+    {
     }
-    public function editInfo(Request $request){
+
+    public function getUserInfo($id)
+    {
+        $user = User::where("id",$id)->first();
+        return $user;
+    }
+
+    public function editInfo(Request $request)
+    {
         $user_id = $request->get("user_id");
         $avatar = $request->get("avatar");
         $name = $request->get("name");
@@ -33,8 +41,9 @@ class UserController extends Controller
             "avatar" => $avatar
         ]);
     }
-    public function getClass($id) {
-        $classes =[];
+    public function getClass($id)
+    {
+        $classes = [];
         $class_members = ClassMember::where("user_id", $id)->get();
         // return $class_members;
         foreach ($class_members as $class_member) {
@@ -58,5 +67,4 @@ class UserController extends Controller
         }
         return $classes;
     }
-
 }
