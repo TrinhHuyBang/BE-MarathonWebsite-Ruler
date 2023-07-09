@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Route::get('/users/{id}', [UserController::class,'getUserInfo']);
 Route::get('/teacher', [TeacherController::class, 'getListTeacher']);
 Route::put('/update-status', [TeacherController::class, 'updateStatus']);
 Route::post('/review', [ReviewController::class, 'addReview']) -> name('addReview');
