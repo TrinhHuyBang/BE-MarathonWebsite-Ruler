@@ -5,27 +5,38 @@ namespace App\Http\Controllers;
 use App\Http\Resources\TeacherResource;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class TeacherController extends Controller
 {
-    public function getListTeacher(){
+    public function getListTeacher()
+    {
         return TeacherResource::collection(Teacher::get());
     }
 
-    public function getListComment($id){
+    public function getListComment($id)
+    {
         $comments = Teacher::find($id)->comments()->get();
+        foreach ($comments as $comment) {
+            $user = User::where("id",$comment->user_id)->first(); // Giả sử thông tin người dùng được lưu trong trường 'name'
+            $comment->user_name = $user->name;
+        }
+
         return $comments;
     }
-    public function updateStatus(Request $request){
+
+    public function updateStatus(Request $request)
+    {
         $teacher_id = $request->get("teacher_id");
         $status = $request->get("status");
-        
+
         return Teacher::where("id", $teacher_id)->update([
             "status" => $status
         ]);
     }
-    
-    public function searchTeacher(Request $request){
+
+    public function searchTeacher(Request $request)
+    {
         $query = Teacher::query();
         // Lấy giá trị tham số tìm kiếm từ request
         $searchTerm = $request->input('search');
@@ -53,7 +64,8 @@ class TeacherController extends Controller
 
         return TeacherResource::collection($results);
     }
-    public function deleteTeacher($id) {
+    public function deleteTeacher($id)
+    {
         // try {
         //     $classes = Classes::Where("teacher_id", $id)->get();
         //     foreach ($classes as $class) {
