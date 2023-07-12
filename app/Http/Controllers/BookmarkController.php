@@ -34,6 +34,13 @@ class BookmarkController extends Controller
         foreach($bookmarks as $bookmark){
             $teacher_id = $bookmark->teacher_id;
             $teacher = Teacher::where('id', $teacher_id)->first();
+            $rating = 0;
+            foreach($teacher->comments as $comment){
+                $rating += $comment->rating;
+            }
+            $rating /= $teacher->comments->count();
+            $teacher->rating = $rating;
+            unset($teacher['comments']);
             array_push($teachers,$teacher);
         }
 
