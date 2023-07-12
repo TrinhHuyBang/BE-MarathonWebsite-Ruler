@@ -55,5 +55,6 @@ Route::post('/bookmark', [BookmarkController::class, 'bookmark']);
 Route::get('/getbookmark/{id}', [BookmarkController::class, 'getTeacherBookmark']);
 
 Route::put('/edit-info', [UserController::class, 'editInfo']);
+Route::put('/edit-desired-info', [UserController::class, 'editDesiredInfo']);
 
 

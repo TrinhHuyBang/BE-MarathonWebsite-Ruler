@@ -61,11 +61,19 @@ class UserController extends Controller
                 "fee" => $class->fee,
                 "level" => $class->level,
                 "type" => $class->type,
-                "start_date" => $class->start_dateel,
+                "start_date" => $class->start_date,
                 "end_date" => $class->end_date,
                 "timeslot" => $timeslot,
             ]);
         }
         return $classes;
     }
+
+    public function editDesiredInfo(Request $request)
+    {
+        $user_id = $request->get("id");
+        $input = $request->except(['id']);
+        return User::where("id", $user_id)->update($input);
+    }
+    
 }
