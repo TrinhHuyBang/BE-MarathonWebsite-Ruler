@@ -64,6 +64,7 @@ class UserController extends Controller
                 "start_date" => $class->start_date,
                 "end_date" => $class->end_date,
                 "timeslot" => $timeslot,
+                "status" => $class_member->status,
             ]);
         }
         return $classes;
