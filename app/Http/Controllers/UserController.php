@@ -54,6 +54,7 @@ class UserController extends Controller
             // return $class;
             $teacher = Teacher::where("id", $class->teacher_id)->first();
             array_push($classes, [
+                "class_id" => $class->id,
                 "name_class" => $class->name,
                 "teacher" => $teacher->name,
                 "goal" => $class->goal,
